@@ -1,0 +1,62 @@
+<?php
+
+namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use App\Profileimgs;
+use App\User;
+
+class profileimgController extends Controller
+{
+
+        public function index()
+    {
+        $profile =Profileimgs::all();
+        return response()->json([
+            'success' => true,
+            'data' => $profile
+        ]);
+    }
+
+
+    public function store(Request $request)
+    {
+        $this->validate($request, [
+            'profileimg' => 'required',
+           
+            'profileimg.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            
+        ]);
+        
+    
+        $imageName = "";
+       
+        $Image = new Profileimgs();
+      
+        $Image->profileimg= $imageName;
+      
+     
+        if ($request->hasFile('profileimg')) {
+            $profile =$request->input('profile_id');
+            $imageName = time().'.'.$request->profileimg->getClientOriginalExtension();
+            $image = $request->file('profileimg');
+            $t = Storage::disk('s3')->put($imageName, file_get_contents($image), 'public');
+            $imageName = Storage::disk('s3')->url($imageName);
+            $upload_file=Profileimgs::create(['profile_id' => $profile,
+                                     'profileimg' => $imageName]);
+         }
+        
+
+            return response()->json([
+                'success' => true,
+                'data' =>$upload_file
+            ]);
+       }
+       public function destroy($id)
+       {
+           $profile=Profileimgs::where('profile_id','=', $id);
+           $profile->delete();
+           return response()->json( $profile);
+       }
+}
