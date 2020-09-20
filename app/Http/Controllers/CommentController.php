@@ -62,7 +62,7 @@ class CommentController extends Controller
 
         if (auth()->user()->comments()->save($comment))
         {
-            $books = comment::with('replies','profiles','users')->where('id','=',$comment->id)->get();
+            $books = comment::with('replies','profileimgs','users')->where('id','=',$comment->id)->get();
             return response()->json([
                 'success' => true,
                 'data' => $books

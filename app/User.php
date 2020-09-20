@@ -93,6 +93,10 @@ class User extends Authenticatable
     {
         return $this->hasOne( 'App\Profile', 'id', 'user_id');
     }
+    public function profile()
+    {
+        return $this->hasOne( Profile::class);
+    }
   
     public function addresses()
     {

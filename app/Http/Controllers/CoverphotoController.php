@@ -37,6 +37,22 @@ class CoverphotoController extends Controller
             'data' => $coverphotos->toArray()]
             , 200);
     }
+    public function covershowbyid($id)
+    {
+        $coverphotos = Coverphotos::where('user_id','=',$id)->get();
+ 
+        if (!$coverphotos) {
+            return response()->json([
+                'success' => false,
+                'message' => 'coverphotos with id ' . $id . ' not found'
+            ], 400);
+        }
+ 
+        return response()->json([
+            'success' => true,
+            'data' => $coverphotos->toArray()
+        ], 200);
+    }
     public function store(Request $request)
     {
         $this->validate($request, [

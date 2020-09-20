@@ -23,6 +23,8 @@ Route::post('register', 'PassportController@register');
 
 Route::middleware('auth:api')->group(function () {
     Route::get('user', 'PassportController@details');
+
+    Route::put('usersupdate','UserController@update');
    
 //Friends,follow,connection
     Route::post('userfollow','UserfollowController@userfollow');
@@ -57,9 +59,10 @@ Route::middleware('auth:api')->group(function () {
 
 
     Route::resource('profiles', 'ProfileController');
+    
     Route::resource('profileimg', 'profileimgController');
     Route::resource('coverphoto', 'CoverphotoController');
-    Route::get('profileshowbyidauth/{id}','ProfileController@profileshowbyid');
+    Route::get('profileshowbyidauth','ProfileController@profileshowbyidauth');
 
     Route::resource('cdetails', 'CdetailsController');
     Route::resource('education', 'EducationController');
@@ -177,3 +180,4 @@ Route::get('edushowbyid/{id}','EducationController@edushowbyid');
 Route::get('aboutshowbyid/{id}','AboutController@aboutshowbyid');
 Route::get('experienceshowbyid/{id}','ExperienceController@experienceshowbyid');
 Route::get('profileshowbyid/{id}','ProfileController@profileshowbyid');
+Route::get('covershowbyid/{id}','CoverphotoController@covershowbyid');

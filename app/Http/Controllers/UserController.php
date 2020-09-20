@@ -15,7 +15,7 @@ class UserController extends Controller
     public function show()
         {   
             $id = Auth::user()->id;
-            echo($id);
+            
             $users = User::select('first_name','last_name','id')->where('id','!=',$id)->with('profileimg')->get();
          
 
@@ -34,6 +34,32 @@ class UserController extends Controller
             'success' => true,
             'data' => $users
         ]);
+    }
+    public function update(Request $request)
+    {
+       
+        
+        $users = auth()->user();
+        
+        if (!$users) {
+            return response()->json([
+                'success' => false,
+                'message' => 'User with id ' . $id . ' not found'
+            ], 400);
+        }
+ 
+        $updated = $users->fill($request->all())->save();
+ 
+        if ($updated)
+            return response()->json([
+                'success' => true,
+                'data'=>$users
+            ]);
+        else
+            return response()->json([
+                'success' => false,
+                'message' => 'user could not be updated'
+            ], 500);
     }
    
     

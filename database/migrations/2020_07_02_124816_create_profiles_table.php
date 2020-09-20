@@ -19,7 +19,7 @@ class CreateProfilesTable extends Migration
             $table->string('mobile_no');
             $table->string('postal_code');
             $table->string('address');
-            $table->string('profileimg');
+           
             $table->string('designation');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');

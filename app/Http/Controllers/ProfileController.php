@@ -14,7 +14,7 @@ class ProfileController extends Controller
     {
         $profile = Profile::all();
         foreach($profile as $com){
-        $com['profileimg'] = Profileimgs::where('profile_id','=', $com['id'])->get();
+        $com['profileimg'] = Profileimgs::where('user_id','=', $com['id'])->get();
        
         }
         return response()->json([
@@ -65,32 +65,20 @@ class ProfileController extends Controller
             'address' =>'required',
             'postal_code' =>'required',
             'designation'=>'required',
-            'profileimg'=>'required',
-            'profileimg.*'=>'required|mimes:pdf,xlx,csv|max:2048'
-        
             
         ]);
         
-        $imageName = "";
+        
         $profile = new Profile();
         $profile->mobile_no = $request->mobile_no;
         $profile->address = $request->address;
         $profile->postal_code = $request->postal_code;
         $profile->designation =$request->designation;
-        $profile->profileimg= $imageName;
- 
-        if (auth()->user()->profiles()->save($profile))
+        
+            
+        if (auth()->user()->profile()->save($profile))
         {
-            $res = $profile->toArray();
-      if ($request->hasFile('profileimg')) {
-       
-        $imageName = time().'.'.$request->profileimg->getClientOriginalExtension();
-        $image = $request->file('profileimg');
-        $t = Storage::disk('s3')->put($imageName, file_get_contents($image), 'public');
-        $imageName= Storage::disk('s3')->url($imageName);
-        Profileimgs::create(['profile_id' => $res['id'],
-                                'profileimg' => $imageName]);
-     }
+           
             return response()->json([
                 'success' => true,
                 'data' => $profile->toArray()
@@ -128,10 +116,11 @@ class ProfileController extends Controller
                 'message' => 'Profile could not be updated'
             ], 500);
     }
-    public function profileshowbyidauth($id)
+    public function profileshowbyidauth()
     {   
-        $profile = auth()->user()->profiles()->find($id);
-        $profile = Profile::where('user_id','=',$id)->get();
+        $id = auth()->user();
+        
+        $profile = Profile::where('user_id','=',$id->id)->get();
  
         if (!$profile) {
             return response()->json([

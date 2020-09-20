@@ -18,7 +18,7 @@ class PostCommentReplyController extends Controller
     public function index()
     {
    
-    $books = post::with('comments.users','comments.replies.users','comments.profiles','comments.replies.profiles','users','profiles','postimages','postvideos')
+    $books = post::with('comments.users','comments.replies.users','comments.profileimgs','comments.replies.profileimgs','users','profileimgs','postimages','postvideos')
     ->withcount('comments')->orderBy('id','desc')
     ->paginate(20);
     
@@ -33,7 +33,7 @@ class PostCommentReplyController extends Controller
     {
         $id = auth()->user();
        
-        $books = post::with('comments.users','comments.replies.users','comments.profiles','comments.replies.profiles','users','profiles','postimages','postvideos')
+        $books = post::with('comments.users','comments.replies.users','comments.profileimgs','comments.replies.profileimgs','users','profileimgs','postimages','postvideos')
         ->withcount('comments')->orderBy('id','desc')->where('user_id','=',$id->id)
         ->paginate(20);
         
@@ -47,7 +47,7 @@ public function showby($id)
 {
     
    
-    $books = post::with('comments.users','comments.replies.users','comments.profiles','comments.replies.profiles','users','profiles','postimages','postvideos')
+    $books = post::with('comments.users','comments.replies.users','comments.profileimgs','comments.replies.profileimgs','users','profileimgs','postimages','postvideos')
     ->withcount('comments')->orderBy('id','desc')->where('user_id','=',$id)
     ->paginate(20);
     

@@ -185,7 +185,7 @@ class PostController extends Controller
 
             }
           
-            $books = post::with('comments.users','comments.replies.users','comments.profiles','comments.replies.profiles','users','profiles','postimages','postvideos')
+            $books = post::with('comments.users','comments.replies.users','comments.profileimgs','comments.replies.profileimgs','users','profileimgs','postimages','postvideos')
             ->withcount('comments')->where('id','=',$posts->id)->get();
             return response()->json([
                 'success' => true,

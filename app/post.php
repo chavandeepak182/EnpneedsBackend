@@ -16,7 +16,7 @@ public function comments()
     {
         return $this->hasOne( 'App\User', 'id', 'user_id')->select('id','first_name','last_name');
     }
-    public function profiles()
+    public function profileimgs()
     {
         return $this->hasOne( 'App\Profileimgs', 'id', 'user_id');
     }

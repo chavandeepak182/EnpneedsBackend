@@ -19,7 +19,7 @@ class comment extends Model
     {
         return $this->hasMany(reply::class);
     }
-    public function profiles()
+    public function profileimgs()
     {
         return $this->hasOne( 'App\Profileimgs', 'id', 'user_id');
     }
