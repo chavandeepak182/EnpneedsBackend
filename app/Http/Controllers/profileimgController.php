@@ -43,10 +43,10 @@ class profileimgController extends Controller
             $image = $request->file('profileimg');
             $t = Storage::disk('s3')->put($imageName, file_get_contents($image), 'public');
             $imageName = Storage::disk('s3')->url($imageName);
-            $upload_file=Profileimgs::create([
-                                     'profileimg' => $imageName]);
+            $upload_file=Profileimgs::create(['user_id'=>auth()->user()->id,
+                  'profileimg' => $imageName]);
          }
-        
+         
 
             return response()->json([
                 'success' => true,
