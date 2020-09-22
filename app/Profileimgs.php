@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class profileimgs extends Model
 {
     protected $table="profileimgs";
-    protected $fillable = [   'profileimg', 
+    protected $fillable = [  'user_id' ,'profileimg', 
     ];
 }
 

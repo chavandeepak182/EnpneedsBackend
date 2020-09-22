@@ -111,7 +111,7 @@ class CoverphotoController extends Controller
     }
     public function destroy($id)
     {
-        $coverphotos= Coverphoto::find($id);
+        $coverphotos= Coverphotos::find($id);
         $coverphotos->delete();
         return response()->json( $coverphotos);
     }

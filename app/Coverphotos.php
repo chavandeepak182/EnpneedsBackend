@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Coverphotos extends Model
 {
     protected $table="coverphotos";
-    protected $fillable = [
+    protected $fillable = ['user_id',
         'coverphoto'
     ];
     public function users()

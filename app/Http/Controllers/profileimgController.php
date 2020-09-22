@@ -38,12 +38,12 @@ class profileimgController extends Controller
       
      
         if ($request->hasFile('profileimg')) {
-            $profile =$request->input('profile_id');
+           
             $imageName = time().'.'.$request->profileimg->getClientOriginalExtension();
             $image = $request->file('profileimg');
             $t = Storage::disk('s3')->put($imageName, file_get_contents($image), 'public');
             $imageName = Storage::disk('s3')->url($imageName);
-            $upload_file=Profileimgs::create(['profile_id' => $profile,
+            $upload_file=Profileimgs::create([
                                      'profileimg' => $imageName]);
          }
         

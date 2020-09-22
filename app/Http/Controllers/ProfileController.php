@@ -94,8 +94,8 @@ class ProfileController extends Controller
     {
         Log::info('Update profile: '.$id);
         Log::info('Request: '.$request);
-        $profile = auth()->user()->profiles()->find($id);
- 
+        $profile = auth()->user()->profile()->find($id);
+
         if (!$profile) {
             return response()->json([
                 'success' => false,
@@ -137,7 +137,7 @@ class ProfileController extends Controller
  
     public function destroy($id)
     {
-        $profile = auth()->user()->profiles()->find($id);
+        $profile = auth()->user()->profile()->find($id);
  
         if (!$profile) {
             return response()->json([
