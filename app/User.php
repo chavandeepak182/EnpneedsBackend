@@ -89,6 +89,10 @@ class User extends Authenticatable
     {
         return $this->hasOne( 'App\Profileimgs', 'id', 'id');
     }
+    public function profileimgs()
+    {
+        return $this->hasOne( Profileimgs::class);
+    }
     public function profiles()
     {
         return $this->hasOne( 'App\Profile', 'id', 'user_id');

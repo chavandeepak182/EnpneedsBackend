@@ -18,6 +18,15 @@ class profileimgController extends Controller
             'data' => $profile
         ]);
     }
+    public function profileimage()
+    {
+
+        $profile = auth()->user()->profileimg;
+        return response()->json([
+            'success' => true,
+            'data' => $profile
+        ]);
+    }
 
 
     public function store(Request $request)
@@ -55,7 +64,7 @@ class profileimgController extends Controller
        }
        public function destroy($id)
        {
-           $profile=Profileimgs::where('profile_id','=', $id);
+           $profile=Profileimgs::where('id','=', $id);
            $profile->delete();
            return response()->json( $profile);
        }

@@ -57,9 +57,9 @@ Route::middleware('auth:api')->group(function () {
     Route::post('dislikereply', 'ReplyController@DisLikes');
 
 
-
+   
     Route::resource('profiles', 'ProfileController');
-    
+    Route::get('profileimgs', 'profileimgController@profileimage');
     Route::resource('profileimg', 'profileimgController');
     Route::resource('coverphoto', 'CoverphotoController');
     Route::get('profileshowbyidauth','ProfileController@profileshowbyidauth');
