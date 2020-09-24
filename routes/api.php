@@ -25,6 +25,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('user', 'PassportController@details');
 
     Route::put('usersupdate','UserController@update');
+    Route::get('userphotos','UserController@getUserphoto');
    
 //Friends,follow,connection
     Route::post('userfollow','UserfollowController@userfollow');

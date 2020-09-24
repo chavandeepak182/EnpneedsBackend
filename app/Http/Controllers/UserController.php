@@ -61,6 +61,20 @@ class UserController extends Controller
                 'message' => 'user could not be updated'
             ], 500);
     }
+    public function getUserphoto()
+    {
+         
+            $id = auth()->user();
+        $photos=User::with('profilephoto','coverphotos','postimages')->where('id','=',$id->id)->get();
+        $videos=User::with('postvideos')->where('id','=',$id->id)->get();
+     
+        return response()->json([
+            'success' => true,
+            'data' => $photos,
+            'video'=>$videos
+        ]);
+    
+}
    
     
 }

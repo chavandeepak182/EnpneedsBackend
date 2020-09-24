@@ -97,6 +97,18 @@ class User extends Authenticatable
     {
         return $this->hasOne( 'App\Profile', 'id', 'user_id');
     }
+    public function profilephoto()
+    {
+        return $this->hasOne( profileimgs::class);
+    }
+    public function postimages()
+    {
+        return $this->hasMany('App\postimages', 'id', 'user_id');
+    }
+    public function postvideos()
+    {
+        return $this->hasMany('App\postvideo', 'id', 'user_id');
+    }
     
     public function profile()
     {
