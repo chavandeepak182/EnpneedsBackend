@@ -149,50 +149,33 @@ class CommentController extends Controller
 
         $comment_id = $request->comment_id;
         $userInfo = auth()->user();
-
+        
         $check = commentlike::where('comment_id','=',$comment_id)->where('user_id','=',$userInfo->id)->first();
         if(empty($check))
         {
-
-            $inser_data['comment_id'] = $comment_id;
-            $inser_data['user_id'] = $userInfo->id;
-
-
-            commentlike::create($inser_data);
-
-            $previousCommentLike = DB::table('comments')->where('id',$comment_id)->first();
-            $previousCommentLike = json_decode(json_encode($previousCommentLike),true);
-            
-            $previousCommentLikeCount = $previousCommentLike['commentlikecount'];
-       
-
-          $newCommentLikeCount = $previousCommentLikeCount + 1;
-
-
-            DB::table('comments')->where('id',$comment_id)->update(['commentlikecount'=>$newCommentLikeCount]);
-            $count=DB::table('comments')->where('id',$comment_id)->get();
-            return response()->json([
-                'success' => true,
-                'data' => $count[0]->commentlikecount
-            ], 200);
-        }
-        else {
-            return response()->json([
-                'success' => false,
-                'message' => 'already liked',
-                
-            ], 500);
         
-
-          $count= DB::table('comments')->where('id',$comment_id)->update(['commentlikecount'=>$newCommentLikeCount]);
-            return response()->json([
-                'success' => false,
-                'replylikecount' => $count
-            ], 200);
-
-        }
-
+        $inser_data['comment_id'] = $comment_id;
+        $inser_data['user_id'] = $userInfo->id;
+        
+        
+        commentlike::create($inser_data);
+        
+        $previousCommentLike = DB::table('comments')->where('id',$comment_id)->first();
+        $previousCommentLike = json_decode(json_encode($previousCommentLike),true);
+        
+        $previousCommentLikeCount = $previousCommentLike['commentlikecount'];
+        
+        
+        $newCommentLikeCount = $previousCommentLikeCount + 1;
+        
+        DB::table('comments')->where('id',$comment_id)->update(['commentlikecount'=>$newCommentLikeCount]);
+        return response()->json([
+            'success' => true,
+            'data' => $newCommentLikeCount
+        ],200);   
     }
+        
+        }
     Public function dislikes(Request $request){
 
         $comment_id = $request->comment_id;
@@ -217,7 +200,9 @@ class CommentController extends Controller
              $newCommentDisLikeCount = $previousCommentDisLikeCount + 1;
 
             DB::table('comments')->where('id',$comment_id)->update(['commentdislikecount'=>$newCommentDisLikeCount]);
+        
         }
+
 
     }
     
