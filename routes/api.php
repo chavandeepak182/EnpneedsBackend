@@ -33,6 +33,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('accept_request','FriendController@accept_request');
     Route::get('friend_list','FriendController@friend_list');
     Route::post('send_conection','FriendController@send_conection');
+    Route::get('request_detail','FriendController@request_detail');
 
     Route::post('reject_request','FriendController@reject_request');
     Route::get('suggestion_list','FriendController@suggestion_list');

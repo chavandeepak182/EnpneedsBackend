@@ -21,7 +21,7 @@ class profileimgController extends Controller
     public function profileimage()
     {
 
-        $profile = auth()->user()->profileimg;
+        $profile = auth()->user()->profileimgs;
         return response()->json([
             'success' => true,
             'data' => $profile

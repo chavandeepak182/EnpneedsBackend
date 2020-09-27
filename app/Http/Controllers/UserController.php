@@ -65,8 +65,8 @@ class UserController extends Controller
     {
          
             $id = auth()->user();
-        $photos=User::with('profilephoto','coverphotos','postimages')->where('id','=',$id->id)->get();
-        $videos=User::with('postvideos')->where('id','=',$id->id)->get();
+        $photos=User::with('profilephoto','coverphotos','profiles.postimages')->where('id','=',1)->get();
+        $videos=User::with('postvideos')->where('id','=',1)->get();
      
         return response()->json([
             'success' => true,

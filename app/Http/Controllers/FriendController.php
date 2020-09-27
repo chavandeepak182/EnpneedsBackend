@@ -90,17 +90,18 @@ function sendmail($title,$name,$email,$subject)
         if ($check_exist1) {
             $check_ecount = DB::table('friends')->where('request_person_id', $id)->where('user_id', $user_id)->count();
             if ($check_ecount > 0) {
-                $json = (array('success' => 1, 'msg' => "done..!"));
+                $json = (array('already send request'));
                 echo json_encode($json);
             } else {
                 $affected = DB::table('friends')->insert($data);
+                $json = (array('succesfully'));
+                echo json_encode($json);
 
-
-   $title='You have receive connection request.';
+  /* $title='You have receive connection request.';
   $name='By:'.Auth::user()->first_name.' '.Auth::user()->last_name;
   $email=$check_exist1->email;
   $subject='Enpneeds.com You have receive connection request notification.';
-  $email=$this->sendmail($title,$name,$email,$subject);
+  $email=$this->sendmail($title,$name,$email,$subject);*/
                 
               }
         } else {
@@ -115,7 +116,7 @@ function sendmail($title,$name,$email,$subject)
     	 $user_id=Auth::user()->id;
     	$sql=DB::table('friends')->where(['friends.request_person_id'=>$user_id,'friends.user_id'=>$id])->update(['status'=>'Accepted']);
 
-        echo ($sql);
+      
     	 if($sql)
     	 {
         $msg = "Request Accepted Successfully.";
@@ -128,6 +129,28 @@ function sendmail($title,$name,$email,$subject)
 		}
 
     } 
+    Public function request_detail(Request $request)
+    {
+        $id=Auth::user()->id;
+        $e = DB::table('users')
+        ->Leftjoin('profileimgs', 'profileimgs.user_id', '=', 'users.id')
+        ->Leftjoin('profiles', 'profiles.user_id', '=', 'users.id')    
+        ->where(function ($query) {
+             $id = Auth::user()->id;
+             $query->whereIn('users.id', DB::table('friends')->where(['user_id' => $id, 'status' => 'Requested'])->pluck('request_person_id')->toArray())
+                    ->orwhereIn('users.id', DB::table('friends')->where(['request_person_id' => $id, 'status' => 'Requested'])->pluck('user_id')->toArray());
+              })->select(DB::raw('CONCAT(users.first_name, " ", users.last_name) AS full_name'), 'users.id', 'users.id as user_id','profileimgs.profileimg','profiles.designation')
+              ->get();                        
+
+
+
+              return response()->json([
+                'success' => true,
+                
+                'list' => $e
+            ]);
+        
+    } 
     public function friend_list()
     {
        $id = Auth::user()->id;
@@ -137,13 +160,13 @@ function sendmail($title,$name,$email,$subject)
                  $ids1 = DB::table('friends')->where(['user_id' => $id, 'status' => 'Accepted'])->pluck('request_person_id')->toArray();
                 $ids2 = DB::table('friends')->where(['request_person_id' => $id, 'status' => 'Accepted'])->pluck('user_id')->toArray();
                         $e = DB::table('users')
-                                ->Leftjoin('profileimg', 'profileimg.user_id', '=', 'users.id')
+                                ->Leftjoin('profileimgs', 'profileimgs.user_id', '=', 'users.id')
                                 ->Leftjoin('profiles', 'profiles.user_id', '=', 'users.id')    
                                 ->where(function ($query) {
                                      $id = Auth::user()->id;
                                      $query->whereIn('users.id', DB::table('friends')->where(['user_id' => $id, 'status' => 'Accepted'])->pluck('request_person_id')->toArray())
                                             ->orwhereIn('users.id', DB::table('friends')->where(['request_person_id' => $id, 'status' => 'Accepted'])->pluck('user_id')->toArray());
-                                      })->select(DB::raw('CONCAT(users.first_name, " ", users.last_name) AS full_name'), 'users.id', 'users.id as users_id','profileimg.profileimg','profiles.designation')
+                                      })->select(DB::raw('CONCAT(users.first_name, " ", users.last_name) AS full_name'), 'users.id', 'users.id as user_id','profileimgs.profileimg','profiles.designation')
                                       ->get();                        
         
         
@@ -155,6 +178,7 @@ function sendmail($title,$name,$email,$subject)
         ]);
     
         }
+      
 
         function  send_conection(Request $request)
         {
