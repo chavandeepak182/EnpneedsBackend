@@ -183,3 +183,6 @@ Route::get('aboutshowbyid/{id}','AboutController@aboutshowbyid');
 Route::get('experienceshowbyid/{id}','ExperienceController@experienceshowbyid');
 Route::get('profileshowbyid/{id}','ProfileController@profileshowbyid');
 Route::get('covershowbyid/{id}','CoverphotoController@covershowbyid');
+Route::get('friend_listByUser/{id}','UserController@friend_listByUser');
+Route::get('profileimageByUser/{id}','profileimgController@profileimageByUser');
+

@@ -27,6 +27,15 @@ class profileimgController extends Controller
             'data' => $profile
         ]);
     }
+    public function profileimageByUser($id)
+    {
+
+        $profile =Profileimgs::where('user_id','=',$id)->get();
+        return response()->json([
+            'success' => true,
+            'data' => $profile
+        ]);
+    }
 
 
     public function store(Request $request)

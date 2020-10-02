@@ -7,6 +7,7 @@ use App\User;
 use App\Profile;
 use App\Profileimgs;
 use Auth;
+use App\Friend;
 use DB;
 
 class UserController extends Controller
@@ -27,7 +28,7 @@ class UserController extends Controller
         }
     public function getUser($id)
     {
-        $users=User::with('education','experiences','profileimg','abouts')->where('id','=',$id)->get();
+        $users=User::where('id','=',$id)->get();
        
      
         return response()->json([
@@ -63,10 +64,10 @@ class UserController extends Controller
     }
     public function getUserphoto()
     {
-         
+      
             $id = auth()->user();
-        $photos=User::with('profilephoto','coverphotos','profiles.postimages')->where('id','=',1)->get();
-        $videos=User::with('postvideos')->where('id','=',1)->get();
+        $photos=User::with('profilephoto','coverphotos')->where('id','=',$id->id)->select('id')->get();
+        $videos=User::with('post.postvideos')->where('id','=',$id->id)->select('id')->get();
      
         return response()->json([
             'success' => true,
@@ -75,6 +76,28 @@ class UserController extends Controller
         ]);
     
 }
+public function friend_listByUser($id)
+{
+$id1=$id;
+    $e = DB::table('users')
+                            ->Leftjoin('profileimgs', 'profileimgs.user_id', '=', 'users.id')
+                            ->Leftjoin('profiles', 'profiles.user_id', '=', 'users.id')    
+                            ->where(function ($query) {
+                               
+                                 $query->whereIn('users.id', DB::table('friends')->where(['user_id', '=' ,$id1, 'status' => 'Accepted'])->pluck('request_person_id')->toArray())
+                                        ->orwhereIn('users.id', DB::table('friends')->where(['request_person_id', '=', $id1, 'status' => 'Accepted'])->pluck('user_id')->toArray());
+                                  })->select(DB::raw('CONCAT(users.first_name, " ", users.last_name) AS full_name'), 'users.id', 'users.id as user_id','profileimgs.profileimg','profiles.designation')
+                                  ->get();                        
+    
+    
+    
+    return response()->json([
+        'success' => true,
+        
+        'list' => $e
+    ]);
+
+    }
    
     
 }
