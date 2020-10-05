@@ -36,7 +36,7 @@ class EducationController extends Controller
  
     public function edushowbyid($id)
     {
-        $educations = Education::where('user_id','=',$id)->get();
+        $educations = Education::where('user_id','=',$id)->orderBy('id','desc')->get();
  
         if (!$educations) {
             return response()->json([
@@ -48,7 +48,7 @@ class EducationController extends Controller
         return response()->json([
             'success' => true,
             'data' => $educations->toArray()
-        ], 400);
+        ], 200);
     }
  
     public function store(Request $request)

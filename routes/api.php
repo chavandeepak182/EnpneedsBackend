@@ -151,7 +151,7 @@ Route::get('companyindex','CompanyController@index');
 Route::get('companybyid/{id}','CompanyController@show');
 Route::get('whitepaper','WhitepaperController@index');
 Route::get('serviceshowbyid/{id}', 'Servicescontroller@showbyid');
-Route::get('serviceshowbysubcategoryid/{id}', 'Servicescontroller@showbysubcategoryid');
+Route::get('serviceshowbysub categoryid/{id}', 'Servicescontroller@showbysubcategoryid');
 Route::get('suppliershowbyid/{id}', 'SupplierController@showbyid');
 Route::get('suppliershowbysubcategoryid/{id}', 'SupplierController@showbysubcategoryid');
 Route::get('equipmentshowbyid/{id}', 'EquipmentController@showbyid');

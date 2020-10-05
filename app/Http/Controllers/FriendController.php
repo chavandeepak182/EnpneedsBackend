@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Auth;
 use DB;
 use App\Friend;
 use App\User;
@@ -115,6 +115,7 @@ function sendmail($title,$name,$email,$subject)
     	$id=$request->id;
     	 $user_id=Auth::user()->id;
     	$sql=DB::table('friends')->where(['friends.request_person_id'=>$user_id,'friends.user_id'=>$id])->update(['status'=>'Accepted']);
+       echo($sql);
         $sqldelete=DB::table('friends')->where(['friends.request_person_id'=>$id,'friends.user_id'=>$user_id])->delete();
       
     	 if($sql)
@@ -179,21 +180,7 @@ function sendmail($title,$name,$email,$subject)
     
         }
       
-        public function friend_listByUser($id)
-        {
-
-            $e = DB::table('users')
-                                      ->get();                        
-            
-            
-            
-            return response()->json([
-                'success' => true,
-                
-                'list' => $e
-            ]);
-        
-            }
+      
           
 
         function  send_conection(Request $request)

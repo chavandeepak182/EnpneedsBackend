@@ -78,14 +78,14 @@ class UserController extends Controller
 }
 public function friend_listByUser($id)
 {
-$id1=$id;
-    $e = DB::table('users')
+ 
+                    $e = DB::table('users')
                             ->Leftjoin('profileimgs', 'profileimgs.user_id', '=', 'users.id')
                             ->Leftjoin('profiles', 'profiles.user_id', '=', 'users.id')    
-                            ->where(function ($query) {
-                               
-                                 $query->whereIn('users.id', DB::table('friends')->where(['user_id', '=' ,$id1, 'status' => 'Accepted'])->pluck('request_person_id')->toArray())
-                                        ->orwhereIn('users.id', DB::table('friends')->where(['request_person_id', '=', $id1, 'status' => 'Accepted'])->pluck('user_id')->toArray());
+                            ->where(function ($query) use ($id) {
+                              
+                                 $query->whereIn('users.id', DB::table('friends')->where(['user_id' => $id, 'status' => 'Accepted'])->pluck('request_person_id')->toArray())
+                                        ->orwhereIn('users.id', DB::table('friends')->where(['request_person_id' => $id, 'status' => 'Accepted'])->pluck('user_id')->toArray());
                                   })->select(DB::raw('CONCAT(users.first_name, " ", users.last_name) AS full_name'), 'users.id', 'users.id as user_id','profileimgs.profileimg','profiles.designation')
                                   ->get();                        
     

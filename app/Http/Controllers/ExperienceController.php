@@ -36,7 +36,7 @@ class ExperienceController extends Controller
  
     public function experienceshowbyid($id)
     {
-        $experience = Experience::where('user_id','=',$id)->get();
+        $experience = Experience::where('user_id','=',$id)->orderBy('id','desc')->get();
  
         if (!$experience) {
             return response()->json([
@@ -48,7 +48,7 @@ class ExperienceController extends Controller
         return response()->json([
             'success' => true,
             'data' => $experience->toArray()
-        ], 400);
+        ], 200);
     }
  
  
